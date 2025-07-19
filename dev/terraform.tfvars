@@ -1,0 +1,9 @@
+env                  = "dev"
+cidr_block           = "10.200.0.0/16"
+azs                  = ["us-east-1a", "us-east-1b"]
+public_subnet_cidrs  = ["10.200.1.0/24", "10.200.2.0/24"]
+private_subnet_cidrs = ["10.200.3.0/24", "10.200.4.0/24"]
+capacity_type        = "SPOT"
+instance_types       = ["t3.small"]
+ami_type             = "AL2_x86_64"
+k8s_version          = "1.29"
