@@ -1,13 +1,8 @@
 name: IAC(1)
 
 on:
-#  workflow_call:
   workflow_dispatch:
-#    inputs:
-#      repository:
-#        required: false
-#        type: string
-#        default: ${{ github.repository }}
+    inputs:
       db_username:
         description: "Database Username"
         required: true
