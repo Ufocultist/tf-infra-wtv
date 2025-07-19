@@ -1,7 +1,8 @@
 name: IAC
 
 on:
-  workflow_dispatch:
+  workflow_call:
+#  workflow_dispatch:
     inputs:
       db_username:
         required: true
