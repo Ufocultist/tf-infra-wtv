@@ -36,6 +36,7 @@ module "eks" {
   source                  = "../modules/eks"
   name                    = var.name
   env                     = var.env
+  vpc_id                  = module.vpc.vpc_id
   private_subnet_ids      = module.vpc.private_subnet_ids
   eks_role_arn            = module.iam_eks_cluster.eks_role_arn
   eks_node_group_role_arn = module.iam_eks_cluster.eks_node_group_role_arn
