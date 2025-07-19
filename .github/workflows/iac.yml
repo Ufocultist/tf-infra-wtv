@@ -1,37 +1,37 @@
-name: IAC
+name: IAC(1)
 
 on:
-  workflow_call:
-#  workflow_dispatch:
-    inputs:
-      repository:
-        required: false
-        type: string
-        default: ${{ github.repository }}
-#      db_username:
-#        description: "Database Username"
-#        required: true
-#      db_password:
-#        description: "Database Password"
-#        required: true
-#      db_root_password:
-#        description: "Root DB Password"
-#        required: true
-#      db_host:
-#        description: "Database Host"
-#        required: true
-#        default: "mariadb"
-#      db_port:
-#        description: "Database Port"
-#        required: true
-#        default: "3306"
-#      db_name:
-#        description: "Database Name"
-#        required: true
-#        default: "smotrish_db"
-#      flask_secret:
-#        description: "Flask Secret Key"
-#        required: true
+#  workflow_call:
+  workflow_dispatch:
+#    inputs:
+#      repository:
+#        required: false
+#        type: string
+#        default: ${{ github.repository }}
+      db_username:
+        description: "Database Username"
+        required: true
+      db_password:
+        description: "Database Password"
+        required: true
+      db_root_password:
+        description: "Root DB Password"
+        required: true
+      db_host:
+        description: "Database Host"
+        required: true
+        default: "mariadb"
+      db_port:
+        description: "Database Port"
+        required: true
+        default: "3306"
+      db_name:
+        description: "Database Name"
+        required: true
+        default: "smotrish_db"
+      flask_secret:
+        description: "Flask Secret Key"
+        required: true
 
 jobs:
   deploy:
