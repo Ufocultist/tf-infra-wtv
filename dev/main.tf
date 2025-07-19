@@ -29,6 +29,7 @@ module "nat_gateway" {
 
 module "secret" {
   source = "../modules/awssm"
+  env = var.env
   db_username = var.db_username
   db_password = var.db_password
   db_root_password = var.db_root_password
