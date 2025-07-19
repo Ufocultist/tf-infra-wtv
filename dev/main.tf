@@ -21,6 +21,7 @@ module "nat_gateway" {
   vpc_id             = module.vpc.vpc_id
   public_subnet_ids  = module.vpc.public_subnet_ids
   private_subnet_ids = module.vpc.private_subnet_ids
+  igw_id             = module.vpc.igw_id
   providers = {
     aws = aws.us_e1
   }
