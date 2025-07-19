@@ -4,6 +4,10 @@ on:
   workflow_call:
 #  workflow_dispatch:
     inputs:
+      repository:
+        required: false
+        type: string
+        default: ${{ github.repository }}
 #      db_username:
 #        description: "Database Username"
 #        required: true
