@@ -1,0 +1,108 @@
+name: IAC
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Environment"
+        required: true
+        default: "dev"
+        cidr_block:
+          description: "VPC CIDR Block"
+          required: true
+          default: "10.200.0.0/16"
+        azs:
+          description: "Availability Zones (comma-separated)"
+          required: true
+          default: "us-east-1a,us-east-1b"
+        public_subnet_cidrs:
+          description: "Public Subnets (comma-separated)"
+          required: true
+          default: "10.200.1.0/24,10.200.2.0/24"
+        private_subnet_cidrs:
+          description: "Private Subnets (comma-separated)"
+          required: true
+          default: "10.200.3.0/24,10.200.4.0/24"
+        capacity_type:
+          description: "EKS Capacity Type"
+          required: true
+          default: "SPOT"
+        instance_types:
+          description: "EKS Instance Types (comma-separated)"
+          required: true
+          default: "t3.small"
+        ami_type:
+          description: "EKS AMI Type"
+          required: true
+          default: "AL2_x86_64"
+        k8s_version:
+          description: "Kubernetes Version"
+          required: true
+          default: "1.29"
+      db_username:
+        description: "Database Username"
+        required: true
+      db_password:
+        description: "Database Password"
+        required: true
+      db_root_password:
+        description: "Root DB Password"
+        required: true
+      db_host:
+        description: "Database Host"
+        required: false
+        default: "mariadb"
+      db_port:
+        description: "Database Port"
+        required: false
+        default: "3306"
+      db_name:
+        description: "Database Name"
+        required: true
+      flask_secret:
+        description: "Flask Secret Key"
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./dev
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.8.5
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+
+    - name: Terraform Plan
+      run: |
+        terraform plan -var="env=${{ github.event.inputs.env }}" \
+                       -var="cidr_block=${{ github.event.inputs.cidr_block }}" \
+                       -var="azs=${{ github.event.inputs.azs }}" \
+                       -var="public_subnet_cidrs=${{ github.event.inputs.public_subnet_cidrs }}" \
+                       -var="private_subnet_cidrs=${{ github.event.inputs.private_subnet_cidrs }}" \
+                       -var="capacity_type=${{ github.event.inputs.capacity_type }}" \
+                       -var="instance_types=${{ github.event.inputs.instance_types }}" \
+                       -var="ami_type=${{ github.event.inputs.ami_type }}" \
+                       -var="k8s_version=${{ github.event.inputs.k8s_version }}" \
+                       -var="db_username=${{ github.event.inputs.db_username }}" \
+                       -var="db_password=${{ github.event.inputs.db_password }}" \
+                       -var="db_root_password=${{ github.event.inputs.db_root_password }}" \
+                       -var="db_host=${{ github.event.inputs.db_host }}" \
+                       -var="db_port=${{ github.event.inputs.db_port }}" \
+                       -var="db_name=${{ github.event.inputs.db_name }}" \
+                       -var="flask_secret=${{ github.event.inputs.flask_secret }}"

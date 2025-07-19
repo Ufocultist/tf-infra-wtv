@@ -27,6 +27,17 @@ module "nat_gateway" {
   }
 }
 
+module "secret" {
+  source = "../modules/awssm"
+  db_username = var.db_username
+  db_password = var.db_password
+  db_root_password = var.db_root_password
+  db_host = var.db_host
+  db_port = var.db_port
+  db_name = var.db_name
+  flask_secret = var.flask_secret
+}
+
 module "iam_eks_cluster" {
   source = "../modules/iam"
   name   = var.name
