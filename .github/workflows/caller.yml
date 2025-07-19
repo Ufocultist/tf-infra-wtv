@@ -20,4 +20,4 @@ jobs:
   iac:
     uses: ./.github/workflows/iac.yml
     with:
-#      env: dev
+      repository: '${{ github.repository }}'
