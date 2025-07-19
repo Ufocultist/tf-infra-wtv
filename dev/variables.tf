@@ -8,6 +8,12 @@ variable "env" {
   type        = string
 }
 
+variable "region" {
+  description = "AWS region"
+  default     = "us-east1"
+  type        = string
+}
+
 variable "cidr_block" {
   type = string
 }
@@ -66,16 +72,25 @@ variable "db_host" {
 
 variable "db_port" {
   description = "Database port"
-  default = "3306"
-  type = string
+  default     = "3306"
+  type        = string
 }
 
 variable "db_name" {
   description = "Database name"
-  type = string
+  type        = string
 }
 
 variable "flask_secret" {
   description = "Flask secret"
+  type        = string
+}
+
+variable "aws_account_id" {
+  description = "AWS account id"
+  type        = string
+}
+
+variable "repo_name" {
   type = string
 }

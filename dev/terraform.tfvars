@@ -7,3 +7,6 @@ capacity_type        = "SPOT"
 instance_types       = ["t3.small"]
 ami_type             = "AL2_x86_64"
 k8s_version          = "1.29"
+aws_account_id       = "211125364139"
+region               = "us-east-1"
+repo_name            = "ufocultist/wtv-app"
