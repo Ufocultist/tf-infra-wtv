@@ -242,11 +242,26 @@ resource "null_resource" "patch_aws_auth" {
     command = <<EOT
       aws eks update-kubeconfig --name ${aws_eks_cluster.eks.name} --region ${var.region}
 
-      kubectl patch configmap aws-auth -n kube-system --type merge -p '{
-        "data": {
-          "mapRoles": "- rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.env}-${var.name}-eks-node-group-role\\n  username: system:node:{{EC2PrivateDNSName}}\\n  groups:\\n    - system:bootstrappers\\n    - system:nodes\\n- rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.env}-${var.name}-github-actions-role\\n  username: github-actions\\n  groups:\\n    - system:masters"
-        }
-      }'
+      cat <<EOF > aws-auth-patch.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.env}-${var.name}-eks-node-group-role
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+    - rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.env}-${var.name}-github-actions-role
+      username: github-actions
+      groups:
+        - system:masters
+EOF
+
+      kubectl apply -f aws-auth-patch.yaml
     EOT
   }
 
