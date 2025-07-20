@@ -41,12 +41,12 @@ module "secret" {
 
 module "ecr" {
   source       = "../modules/ecr"
-  name         = var.name
+  name         = var.app_name
   scan_on_push = var.scan_on_push
   force_delete = var.force_delete
   tags = {
     Environment = var.env
-    App         = var.app_name
+    App         = var.name
   }
 }
 
