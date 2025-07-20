@@ -244,7 +244,7 @@ resource "null_resource" "patch_aws_auth" {
 
       kubectl patch configmap aws-auth -n kube-system --type merge -p '{
         "data": {
-          "mapRoles": "- rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.env}-${var.name}-github-actions-role\\n  username: github-actions\\n  groups:\\n    - system:masters"
+          "mapRoles": "- rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.env}-${var.name}-eks-node-group-role\\n  username: system:node:{{EC2PrivateDNSName}}\\n  groups:\\n    - system:bootstrappers\\n    - system:nodes\\n- rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.env}-${var.name}-github-actions-role\\n  username: github-actions\\n  groups:\\n    - system:masters"
         }
       }'
     EOT
