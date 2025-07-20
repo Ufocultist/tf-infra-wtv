@@ -117,3 +117,26 @@ resource "aws_iam_role_policy_attachment" "github_secrets" {
   role       = aws_iam_role.github_oidc_role.name
   policy_arn = aws_iam_policy.github_secrets_policy.arn
 }
+
+resource "aws_iam_policy" "github_describe_cluster" {
+  name        = "${var.env}-${var.name}-github-describe-cluster"
+  description = "Allow GitHub Actions to describe EKS cluster for kubeconfig setup"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "eks:DescribeCluster"
+        ],
+        Resource = "arn:aws:eks:${var.region}:${var.aws_account_id}:cluster/${var.env}-${var.name}-cluster"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_github_describe_cluster" {
+  role       = aws_iam_role.github_oidc_role.name
+  policy_arn = aws_iam_policy.github_describe_cluster.arn
+}
