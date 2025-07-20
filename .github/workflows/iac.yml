@@ -14,11 +14,11 @@ on:
         required: true
       db_host:
         description: "Database Host"
-        required: true
+        required: false
         default: "mariadb"
       db_port:
         description: "Database Port"
-        required: true
+        required: false
         default: "3306"
       db_name:
         description: "Database Name"

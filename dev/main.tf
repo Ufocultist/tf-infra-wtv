@@ -39,6 +39,17 @@ module "secret" {
   flask_secret     = var.flask_secret
 }
 
+module "ecr" {
+  source       = "../modules/ecr"
+  name         = var.name
+  scan_on_push = var.scan_on_push
+  force_delete = var.force_delete
+  tags = {
+    Environment = var.env
+    App         = var.app_name
+  }
+}
+
 module "iam_eks_cluster" {
   source         = "../modules/iam"
   name           = var.name

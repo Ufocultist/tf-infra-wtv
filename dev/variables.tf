@@ -3,6 +3,11 @@ variable "name" {
   default = "wtv"
 }
 
+variable "app_name" {
+  description = "The name of the ECR repository"
+  type        = string
+}
+
 variable "env" {
   description = "Environment name"
   type        = string
@@ -10,7 +15,7 @@ variable "env" {
 
 variable "region" {
   description = "AWS region"
-  default     = "us-east1"
+  default     = "us-east-1"
   type        = string
 }
 
@@ -93,4 +98,16 @@ variable "aws_account_id" {
 
 variable "repo_name" {
   type = string
+}
+
+variable "scan_on_push" {
+  description = "Indicates whether images are scanned after being pushed to the repository"
+  type        = bool
+  default     = true
+}
+
+variable "force_delete" {
+  description = "If true, will delete the repository even if it contains images"
+  type        = bool
+  default     = true
 }
