@@ -140,3 +140,25 @@ resource "aws_iam_role_policy_attachment" "attach_github_describe_cluster" {
   role       = aws_iam_role.github_oidc_role.name
   policy_arn = aws_iam_policy.github_describe_cluster.arn
 }
+
+resource "aws_iam_policy" "github_list_clusters" {
+  name = "${var.env}-${var.name}-github-list-clusters"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement: [
+      {
+        Effect: "Allow",
+        Action: [
+          "eks:ListClusters"
+        ],
+        Resource: "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_list_clusters" {
+  role       = aws_iam_role.github_oidc_role.name
+  policy_arn = aws_iam_policy.github_list_clusters.arn
+}
