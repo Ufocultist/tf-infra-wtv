@@ -236,3 +236,15 @@ resource "aws_security_group_rule" "workers_egress_kubeapi" {
   security_group_id        = aws_security_group.eks_nodes.id
   source_security_group_id = aws_security_group.eks_control_plane.id
 }
+
+resource "null_resource" "patch_aws_auth" {
+  provisioner "local-exec" {
+    command = <<EOT
+    kubectl get configmap aws-auth -n kube-system -o yaml > aws-auth.yaml
+    yq eval '.data.mapRoles += "\n  - groups:\n    - system:masters\n    rolearn: arn:aws:iam::211125364139:role/dev-wtv-github-actions-role\n    username: github-actions"' -i aws-auth.yaml
+    kubectl apply -f aws-auth.yaml
+    EOT
+  }
+
+  depends_on = [aws_eks_cluster.eks]
+}
