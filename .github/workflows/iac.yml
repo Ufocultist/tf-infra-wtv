@@ -10,7 +10,7 @@ on:
         description: "Database Password"
         required: true
       db_root_password:
-        description: "Root DB Password"
+        description: "Root Password"
         required: true
       db_host:
         description: "Database Host"
@@ -65,4 +65,6 @@ jobs:
       run: |
         terraform init
         terraform plan -var-file="terraform.tfvars"
+        sleep 5
+        terraform apply -var-file="terraform.tfvars" -auto-approve
 #      -auto-approve
