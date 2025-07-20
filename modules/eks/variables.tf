@@ -8,6 +8,16 @@ variable "env" {
   type        = string
 }
 
+variable "region" {
+  description = "AWS region for the EKS cluster"
+  type        = string
+}
+
+variable "aws_account_id" {
+  description = "AWS Account ID for constructing ARNs"
+  type        = string
+}
+
 variable "vpc_id" {
   type = string
 }

@@ -63,6 +63,8 @@ module "eks" {
   source                  = "../modules/eks"
   name                    = var.name
   env                     = var.env
+  region                  = var.region
+  aws_account_id          = var.aws_account_id
   vpc_id                  = module.vpc.vpc_id
   private_subnet_ids      = module.vpc.private_subnet_ids
   eks_role_arn            = module.iam_eks_cluster.eks_role_arn
