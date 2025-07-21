@@ -55,5 +55,6 @@ kubectl get nodes -o wide # Show all worker nodes.
 Now you can go back to the App repository (https://github.com/Ufocultist/wtv-app) and complete the steps there
 Enjoy!
 
-##TODO
-1. Implement ECS Fargate Conditional deployment
+## TODO
+1. Implement ECS Fargate Conditional deployment.
+2. Implement Multicloud Deployment (GKE/AKS).
