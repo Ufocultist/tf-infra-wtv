@@ -5,6 +5,7 @@ on:
     inputs:
       db_username:
         description: "Database Username"
+        default: "user"
         required: true
       db_password:
         description: "Database Password"
@@ -26,6 +27,7 @@ on:
         default: "smotrish_db"
       flask_secret:
         description: "Flask Secret Key"
+        default: "adsadaydoi38dhiu7w87dys7tasye2u7y77&@#3jd8UDOUD*#EDasdsaded3ss"
         required: true
 
 jobs:
@@ -67,4 +69,3 @@ jobs:
         terraform plan -var-file="terraform.tfvars"
         sleep 5
         terraform apply -var-file="terraform.tfvars" -auto-approve
-#      -auto-approve
