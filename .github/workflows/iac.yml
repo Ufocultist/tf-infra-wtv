@@ -122,8 +122,9 @@ jobs:
     - name: 'Terraform Plan'
       id: plan
       if: >
-        github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' ||
-        github.event_name == 'push' && github.ref_name != 'main'
+        (github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main') ||
+        (github.event_name == 'push' && github.ref_name != 'main')
+      continue-on-error: true
       env:
         TF_VAR_db_username: ${{ github.event.inputs.db_username }}
         TF_VAR_db_password: ${{ github.event.inputs.db_password }}
@@ -135,7 +136,6 @@ jobs:
       run: |
         set -o pipefail
         terraform plan -no-color -var-file="terraform.tfvars" | tee plan.log
-        continue-on-error: true
 
     # Plan status
     - name: 'Terraform Plan Status'
