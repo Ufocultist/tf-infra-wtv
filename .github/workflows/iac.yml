@@ -2,9 +2,20 @@ name: IAC(1)
 
 on:
   push:
-    branches: [ '**' ]
-    pull_request:
-      branches: [ 'main' ]
+    branches:
+      - feature/**
+    tags-ignore:
+      - '**'
+  pull_request:
+    branches:
+      - main
+      - testing**
+    types:
+      - opened
+      - closed
+      - synchronize
+    tags-ignore:
+      - '**'
   workflow_dispatch:
     inputs:
       db_username:
