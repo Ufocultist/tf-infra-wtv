@@ -9,6 +9,8 @@ This project consists of three repositories below.
 (Infra) - https://github.com/Ufocultist/tf-infra-wtv - Terraform IAC repository(K8s standard mode)
 (CICD) - https://github.com/Ufocultist/wtv-cicd - CI/CD repository(Puthon-CI, EKS-CD)
 ```
+Project using Terraform as IAC tool.
+
 1. Clone Infra repository on your pc.
 2. Go to AWS console -> IAM and generate Access keys. Save them to Notepad.
 3. Open Github Actions -> Settings -> Secrets and Variables -> Actions.
