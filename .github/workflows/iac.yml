@@ -9,7 +9,7 @@ on:
         required: true
       db_password:
         description: "Database Password"
-        required: true
+        required: false
       db_root_password:
         description: "Root Password"
         required: true
