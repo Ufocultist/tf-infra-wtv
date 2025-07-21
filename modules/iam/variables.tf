@@ -20,5 +20,6 @@ variable "aws_account_id" {
 }
 
 variable "repo_name" {
+  description = "Github Repository name"
   type = string
 }

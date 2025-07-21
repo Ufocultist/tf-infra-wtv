@@ -20,37 +20,45 @@ variable "region" {
 }
 
 variable "cidr_block" {
+   description = "VPC Address space"
   type = string
 }
 
 variable "azs" {
+  description = "Availability zones"
   type = list(string)
 }
 
 variable "public_subnet_cidrs" {
+  description = "Public Sub's cidrs"
   type = list(string)
 }
 
 variable "private_subnet_cidrs" {
+  description = "Private Sub's cidrs"
   type = list(string)
 }
 
 variable "capacity_type" {
+  description = "Worker Node Instance"
   default = "ON_DEMAND"
   type    = string
 }
 
 variable "instance_types" {
+  description = "Worker Node Instance Type"
   default = ["t3.medium"]
   type    = list(string)
 }
 
 variable "ami_type" {
+  description = "Worker node AMI"
   default = "AL2_x86_64"
   type    = string
 }
 
 variable "k8s_version" {
+  description = "EKS Kubernetes version"
   default = "1.32"
   type    = string
 }
@@ -97,17 +105,18 @@ variable "aws_account_id" {
 }
 
 variable "repo_name" {
+  description = "Github Repository name"
   type = string
 }
 
 variable "scan_on_push" {
-  description = "Indicates whether images are scanned after being pushed to the repository"
+  description = "Images scanned after being pushed to the repository"
   type        = bool
   default     = true
 }
 
 variable "force_delete" {
-  description = "If true, will delete the repository even if it contains images"
+  description = "Will delete the repository even if it contains images"
   type        = bool
   default     = true
 }

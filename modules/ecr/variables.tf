@@ -10,25 +10,25 @@ variable "image_tag_mutability" {
 }
 
 variable "scan_on_push" {
-  description = "Indicates whether images are scanned after being pushed to the repository"
+  description = "Images scanned after being pushed to the repository"
   type        = bool
   default     = true
 }
 
 variable "force_delete" {
-  description = "If true, will delete the repository even if it contains images"
+  description = "Will delete the repository even if it contains images"
   type        = bool
   default     = true
 }
 
 variable "encryption_type" {
-  description = "The encryption type to use. Valid values are AES256 or KMS"
+  description = "The encryption type"
   type        = string
   default     = "AES256"
 }
 
 variable "kms_key_arn" {
-  description = "The ARN of the KMS key to use if encryption_type is KMS"
+  description = "The ARN of the KMS key"
   type        = string
   default     = null
 }
