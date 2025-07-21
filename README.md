@@ -36,7 +36,8 @@ app_name             = "wtv_ns/wtvapp" # Specify namespace/reponame to store Doc
 
 7. Go to Actions Tab and click on IAC(1) at the left hand.
 8. Click on `Run Workflow` button, choose feature/develop branch from the dropdown.
-9. Type Database password and Root Password. You can leave other values as is or override them. Click `Run Workflow` button.
+9. Type Database password and Root Password, only Root Password is mandatory(See notice below). You can leave other values as is or override them. Click `Run Workflow` button.
+```!!! Pipeline won't do `Terraform Apply` in case if `Database password` field is blank.!!!```
 10. Click on `Create Terraform backend?` and choose true if it is your first EKS provisioning. The pipeline will create S3 bucket for your terraform state.
 11. IAC pipeline is going to be triggered. Open Actions Tab and monitor the `Terraform Apply` log.
 12. Wait Terraform apply to complete.
