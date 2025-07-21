@@ -135,7 +135,7 @@ jobs:
         TF_VAR_flask_secret: ${{ github.event.inputs.flask_secret }}
       run: |
         set -o pipefail
-        terraform plan -no-color -var-file="terraform.tfvars" | tee plan.log
+        terraform plan -no-color -var-file="${{ inputs.env }}/terraform.tfvars" | tee plan.log
 
     # Plan status
     - name: 'Terraform Plan Status'
