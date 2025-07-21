@@ -47,7 +47,7 @@ app_name             = "wtv_ns/wtvapp" # Specify namespace/reponame to store Doc
 ## Complete
 
 Warning! EKS is an expensive AWS resource. It cost $0.10 per cluster per hour.
-Don't forget to run `terraform destroy`.
+Remember to run `terraform destroy`.
 
 Now you have running EKS cluster in your AWS cloud.
 Run `aws eks update-kubeconfig --region us-east-1 --name dev-wtv-cluster` in the console to authenticate to the cluster
