@@ -37,6 +37,18 @@ on:
         required: false
         default: wtv
         description: "App name"
+      service:
+        required: false
+        default: eks
+        description: "Cloud Service for deploy(EKS/ECS Fargate)"
+      create_backend:
+        description: "Create Terraform backend?"
+        type: choice
+        options:
+          - "true"
+          - "false"
+        default: "false"
+
 
 jobs:
   deploy:
@@ -63,6 +75,7 @@ jobs:
         aws-region: us-east-1
 
     - name: Set up backend
+      if: ${{ inputs.create_backend }}
       run: |
         
         aws s3api create-bucket \
@@ -84,6 +97,7 @@ jobs:
 
 
     - name: Terraform Apply
+      if: ${{ inputs.service }}
       env:
           TF_VAR_db_username: ${{ github.event.inputs.db_username }}
           TF_VAR_db_password: ${{ github.event.inputs.db_password }}
