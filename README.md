@@ -35,10 +35,10 @@ app_name             = "wtv_ns/wtvapp" # Specify namespace/reponame to store Doc
 7. Go to Actions Tab and click on IAC(1) at the left hand.
 8. Click on "Run Workflow" button, choose feature/develop branch from the dropdown.
 9. Type Database password and Root Password. You can leave other values as is. Click "Run Workflow" button.
-10. IAC pipeline is going to be triggered. Open Actions Tab and monitor the Terraform apply log.
-11. Wait Terraform apply to complete.
-12. Go back to "App" repository.
-
+10. Click on `Create Terraform backend?` and choose true if it is your first EKS provisioning. The pipeline will create S3 bucket for your terrafrom state.
+11. IAC pipeline is going to be triggered. Open Actions Tab and monitor the Terraform apply log.
+12. Wait Terraform apply to complete.
+13. Go back to "App" repository.
 
 
 ## Complete
@@ -46,7 +46,7 @@ app_name             = "wtv_ns/wtvapp" # Specify namespace/reponame to store Doc
 Now you have running EKS cluster.
 Run `aws eks update-kubeconfig --region us-east-1 --name dev-wtv-cluster` in the console to authenticate to the cluster
 
-Useful commands:
+### Useful commands:
 kubectl get pods -A # Show all pods
 kubectl get nodes -o wide # Show all worker nodes.
 
