@@ -236,3 +236,97 @@ resource "aws_security_group_rule" "workers_egress_kubeapi" {
   security_group_id        = aws_security_group.eks_nodes.id
   source_security_group_id = aws_security_group.eks_control_plane.id
 }
+
+resource "null_resource" "patch_aws_auth" {
+  provisioner "local-exec" {
+    command = <<EOT
+      aws eks update-kubeconfig --name ${aws_eks_cluster.eks.name} --region ${var.region}
+
+      cat <<EOF > aws-auth-patch.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.env}-${var.name}-eks-node-group-role
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+    - rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.env}-${var.name}-github-actions-role
+      username: github-actions
+      groups:
+        - system:masters
+EOF
+
+      kubectl apply -f aws-auth-patch.yaml
+    EOT
+  }
+
+  depends_on = [
+    aws_eks_cluster.eks,
+    aws_eks_node_group.node_group
+  ]
+}
+
+
+# provider "kubernetes" {
+#   host                   = data.aws_eks_cluster.this.endpoint
+#   cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
+#   token                  = data.aws_eks_cluster_auth.this.token
+# }
+#
+# data "aws_eks_cluster_auth" "this" {
+#   name = aws_eks_cluster.eks.name
+# }
+#
+#
+# data "aws_eks_cluster" "this" {
+#   name = aws_eks_cluster.eks.name
+# }
+#
+# resource "aws_iam_openid_connect_provider" "eks" {
+#   client_id_list  = ["sts.amazonaws.com"]
+#   thumbprint_list = ["9e99a48a9960b14926bb7f3b02e22da0afd10df6"] # Standard thumbprint for AWS root CA
+#   url             = aws_eks_cluster.eks.identity[0].oidc[0].issuer
+# }
+#
+# resource "aws_iam_role" "ebs_csi" {
+#   name = "${var.env}-${var.name}-ebs-csi-role"
+#
+#   assume_role_policy = jsonencode({
+#   Version = "2012-10-17",
+#   Statement = [
+#     {
+#       Effect = "Allow",
+#       Principal = {
+#         Federated = aws_iam_openid_connect_provider.eks.arn
+#       },
+#       Action = "sts:AssumeRoleWithWebIdentity",
+#       Condition = {
+#         StringEquals = {
+#           "${replace(aws_eks_cluster.eks.identity[0].oidc[0].issuer, "https://", "")}:sub" = "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+#         }
+#       }
+#     }
+#   ]
+# })
+#
+#   tags = {
+#     Name        = "${var.env}-${var.name}-ebs-csi-role"
+#     Environment = var.env
+#   }
+# }
+#
+# resource "kubernetes_service_account" "ebs_csi" {
+#   metadata {
+#     name      = "ebs-csi-controller-sa"
+#     namespace = "kube-system"
+#     annotations = {
+#       "eks.amazonaws.com/role-arn" = aws_iam_role.ebs_csi.arn
+#     }
+#   }
+#   depends_on = [aws_iam_role.ebs_csi]
+# }
