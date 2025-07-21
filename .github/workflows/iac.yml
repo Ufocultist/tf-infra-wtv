@@ -38,9 +38,12 @@ on:
         default: wtv
         description: "App name"
       service:
-        required: false
-        default: eks
         description: "Cloud Service for deploy(EKS/ECS Fargate)"
+        type: choice
+        options:
+          - "EKS"
+          - "ECS"
+        default: "EKS"
       create_backend:
         description: "Create Terraform backend?"
         type: choice
@@ -75,19 +78,17 @@ jobs:
         aws-region: us-east-1
 
     - name: Set up backend
-      if: ${{ inputs.create_backend }}
+      if: ${{ github.event.inputs.create_backend == 'true' }}
       run: |
         
         aws s3api create-bucket \
           --bucket ${{ inputs.env }}-${{ inputs.name }}-terraform-state-bucket \
           --region us-east-1 || true
 
-        
         aws s3api put-bucket-versioning \
           --bucket ${{ inputs.env }}-${{ inputs.name }}-terraform-state-bucket \
           --versioning-configuration Status=Enabled
 
-        
         aws dynamodb create-table \
           --table-name terraform-locks \
           --attribute-definitions AttributeName=LockID,AttributeType=S \
@@ -97,7 +98,7 @@ jobs:
 
 
     - name: Terraform Apply
-      if: ${{ inputs.service }}
+      if: ${{ github.event.inputs.service == 'EKS' }}
       env:
           TF_VAR_db_username: ${{ github.event.inputs.db_username }}
           TF_VAR_db_password: ${{ github.event.inputs.db_password }}
