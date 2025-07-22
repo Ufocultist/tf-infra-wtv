@@ -12,7 +12,7 @@ Project using Terraform as IAC tool.
 1. Clone https://github.com/Ufocultist/tf-infra-wtv repository on your pc.
 2. Go to AWS console -> IAM and generate Access keys. Save them to Notepad.
 3. Open Github Actions -> Settings -> Secrets and Variables -> Actions.
-4. Create two repository keys `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` and copy the values from step 2.
+4. Create two repository keys `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, copy the values from step 2.
 5. Create feature/develop branch from the main branch. Checkout to feature/develop branch. 
 6. Open ./dev/terraform.tfvars file and put your values there and save. See values below.
 
@@ -32,22 +32,23 @@ repo_name            = "Ufocultist/wtv-app" # Paste your cloned repo address.
 app_name             = "wtv_ns/wtvapp" # Specify namespace/reponame to store Docker image in ECR.
 ```
 
-7. Go to Actions Tab and click on IAC(1) at the left hand.
-8. Click on `Run Workflow` button, choose feature/develop branch from the dropdown.
-9. Type Database password and Root Password, only Root Password is mandatory(See notice below). You can leave other values as is or override them. Click `Run Workflow` button.
+7. Open PR from feature/develop branch to the main branch and merge the PR.
+8. Go to Actions Tab and click on IAC(1) on the left-hand side.
+9. Click on `Run Workflow` button, choose feature/develop branch from the dropdown.
+10. Type Database password and Root Password, only Root Password is mandatory(See notice below). You can leave other values as is or override them. Click `Run Workflow` button.
 ```!!! Pipeline won't run `Terraform Apply` unless `Database password` field is blank.!!!```
-10. Click on `Create Terraform backend?` and choose true if it is your first EKS provisioning. The pipeline will create S3 bucket for your terraform state.
-11. IAC pipeline is going to be triggered. Open Actions Tab and monitor the `Terraform Apply` log.
-12. Wait Terraform apply to complete.
-13. Go back to https://github.com/Ufocultist/wtv-app repository for further instructions.
+11. Click on `Create Terraform backend?` and choose true if it is your first EKS provisioning. The pipeline will create S3 bucket for your terraform state.
+12. IAC pipeline is going to be triggered. Open Actions Tab and monitor the `Terraform Apply` log.
+13. Wait Terraform apply to complete. Done!
+14. Go back to https://github.com/Ufocultist/wtv-app repository for further instructions.
 
 ## Complete
-You have running EKS cluster in your AWS cloud. Enjoy!
+You have provision EKS cluster in your AWS cloud. Enjoy!
 Run `aws eks update-kubeconfig --region us-east-1 --name dev-wtv-cluster` in the console to authenticate to the cluster.
 Execute some commands from the `Useful commands` list below.
 
 **Warning**! EKS is an expensive AWS resource. It costs **$0.10** per cluster per hour.
-Remember to run `terraform destroy` when it is no longer necessary.
+Remember to run `terraform destroy` when EKS cluster is no longer needed.
 
 ### Useful commands:
 kubectl get pods -A # Show all pods
